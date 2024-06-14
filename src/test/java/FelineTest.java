@@ -1,39 +1,54 @@
 import com.example.Feline;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.List;
 
+@RunWith(MockitoJUnitRunner.class)
 public class FelineTest {
+
+    @Spy
+    private Feline felineSpy;
 
     @Test
     public void eatMeatTest() throws Exception {
-        Feline feline = new Feline();
         List<String> expectedFood = List.of("Животные", "Птицы", "Рыба");
-        Assert.assertEquals("Список доступной еды не соответствует ожидаемому", feline.eatMeat(), expectedFood);
+        Assert.assertEquals(
+                "Список доступной еды не соответствует ожидаемому",
+                expectedFood,
+                felineSpy.eatMeat()
+        );
+        Mockito.verify(felineSpy).getFood("Хищник");
     }
 
     @Test
     public void getFamilyTest() {
-        Feline feline = new Feline();
-        Assert.assertEquals("Семейство не соответствует ожидаемому", "Кошачьи", feline.getFamily());
+        Assert.assertEquals("Семейство не соответствует ожидаемому", "Кошачьи", felineSpy.getFamily());
     }
 
     @Test
     public void getKittensTest() {
-       Feline feline = new Feline();
-       int expectedValue = 1;
-       Assert.assertEquals("Количество котят не соответствует ожидаемому", expectedValue, feline.getKittens());
+        Feline felineSpy = Mockito.spy(new Feline());
+        int expectedValue = 1;
+        Assert.assertEquals(
+                "Количество котят не соответствует ожидаемому",
+                expectedValue,
+                felineSpy.getKittens()
+        );
+        Mockito.verify(felineSpy).getKittens(1);
     }
 
     @Test
     public void getKittensWithArgTest() {
-        Feline feline = new Feline();
         int expected = 2;
         Assert.assertEquals(
                 "Результат работы метода не соответствует заявленному параметру",
                 expected,
-                feline.getKittens(expected)
+                felineSpy.getKittens(expected)
         );
     }
 }

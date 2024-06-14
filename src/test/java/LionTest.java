@@ -21,7 +21,7 @@ public class LionTest {
         int expectedValue = 1;
         Mockito.when(feline.getKittens()).thenReturn(expectedValue);
         Assert.assertEquals("Количество котят не соответствует ожидаемому", expectedValue, lion.getKittens());
-        Mockito.verify(feline, Mockito.times(1)).getKittens();
+        Mockito.verify(feline).getKittens();
     }
 
     @Test
@@ -30,8 +30,8 @@ public class LionTest {
         List<String> expectedFood = List.of("Животные", "Птицы", "Рыба");
         String predator = "Хищник";
         Mockito.when(feline.getFood(predator)).thenReturn(expectedFood);
-        Assert.assertEquals("Список доступной еды не соответствует ожидаемому", lion.getFood(), expectedFood);
-        Mockito.verify(feline, Mockito.times(1)).getFood(predator);
+        Assert.assertEquals("Список доступной еды не соответствует ожидаемому", expectedFood, lion.getFood());
+        Mockito.verify(feline).getFood(predator);
     }
 
     @Test
